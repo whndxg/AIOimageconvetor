@@ -1,4 +1,4 @@
-export type ImageStatus = "Uploaded" | "Preview Ready" | "Processing" | "Converted" | "Failed";
+export type ImageStatus = "Uploaded" | "Uploading" | "Preview Ready" | "Preparing" | "Cropping" | "Converting" | "Converted" | "Downloading" | "Completed" | "Failed";
 export type OutputFormat = "jpg" | "png" | "webp" | "avif" | "bmp" | "tiff" | "pdf";
 
 export interface CropRect {
@@ -6,6 +6,19 @@ export interface CropRect {
   y: number;
   width: number;
   height: number;
+}
+
+export interface CropPins {
+  a: { x: number; y: number };
+  b: { x: number; y: number };
+}
+
+export interface ProgressState {
+  upload: number;
+  loading: number;
+  crop: number;
+  convert: number;
+  download: number;
 }
 
 export interface ImageItem {
@@ -17,5 +30,8 @@ export interface ImageItem {
   convertedUrl?: string;
   originalMeta?: { width: number; height: number; size: number; format: string };
   convertedMeta?: { width: number; height: number; size: number; format: string };
+  cropRect?: CropRect;
+  cropPins?: CropPins;
   error?: string;
+  progress: ProgressState;
 }
